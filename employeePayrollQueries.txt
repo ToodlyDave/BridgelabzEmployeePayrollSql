@@ -20,3 +20,13 @@ UC7: 	SELECT SUM(salary) FROM employee_payroll WHERE Gender = 'M' GROUP BY gende
 	SELECT MIN(Salary) FROM employee_payroll GROUP BY Gender;
 	SELECT MAX(Salary) FROM employee_payroll GROUP BY Gender;
 	SELECT Gender, COUNT(Gender) FROM employee_payroll GROUP BY Gender;
+
+UC8: 	ALTER TABLE employee_payroll ADD Phone int,
+				     ADD Address varchar(50) DEFAULT 'India',
+				     ADD Department varchar(30) NOT NULL;
+
+UC9: 	ALTER TABLE employee_payroll ADD Basic_Pay int,
+				     ADD Deductions int,
+				     ADD Taxable_Pay int,
+				     ADD Income_Tax int,
+				     ADD Net_Pay int;
