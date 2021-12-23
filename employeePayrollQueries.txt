@@ -30,3 +30,56 @@ UC9: 	ALTER TABLE employee_payroll ADD Basic_Pay int,
 				     ADD Taxable_Pay int,
 				     ADD Income_Tax int,
 				     ADD Net_Pay int;
+
+UC10:	CREATE TABLE Department (
+			department_id int PRIMARY KEY , 
+			Name varchar(30), 
+			Department varchar(30) NOT NULL,
+			employee_id int,
+			FOREIGN KEY (employee_id) REFERENCES employee_payroll(id) ); 
+	ALTER TABLE employee_payroll DROP COLUMN Department;
+	INSERT INTO employee_payroll VALUES(4, 'Terissa', 350000, '2021-3-21', 'F', 123456789, 'US', 123456, 123, 123, 123, 123); 
+	INSERT INTO department VALUES (2, 'Terissa', 'Marketing', 4);
+	SELECT * FROM employee_payroll LEFT JOIN department ON employee_payroll.id = department.employee_id;
+
+UC11:	CREATE TABLE EMPLOYEE_DEPARTMENT 
+			AS (SELECT e.id AS employee_id, d.department_id AS department_id FROM employee_payroll e
+				LEFT JOIN department d
+				ON e.id = d.employee_id);
+	CREATE TABLE PAYROLL
+			AS (SELECT id, Name, Salary, Basic_Pay, Deductions, Taxable_Pay, Income_Tax, Net_Pay FROM employee_payroll);
+
+UC12: 	SELECT * FROM employee_payroll e 
+		LEFT JOIN payroll p
+		ON e.id = p.id;
+
+	SELECT e.Name, p.Salary FROM employee_payroll e
+		LEFT JOIN payroll p
+		ON e.id = p.id
+		WHERE e.name = 'James Blunt';
+
+	SELECT e.Name, e.Start_Date, p.Salary FROM employee_payroll e
+		LEFT JOIN payroll p
+		ON e.id = p.id
+		WHERE Start_Date BETWEEN CAST('2021-12-01' AS DATE) AND DATE(NOW());
+
+	SELECT SUM(p.Salary), e.Gender FROM employee_payroll e
+		LEFT JOIN payroll p
+		ON e.id = p.id
+		WHERE e.Gender = 'M' GROUP BY gender;
+	SELECT AVG(p.Salary), e.Gender FROM employee_payroll e
+		LEFT JOIN payroll p
+		ON e.id = p.id
+		GROUP BY Gender;
+	SELECT MIN(p.Salary), e.Gender FROM employee_payroll e
+		LEFT JOIN payroll p
+		ON e.id = p.id
+		GROUP BY Gender;
+	SELECT MAX(p.Salary), e.Gender FROM employee_payroll e
+		LEFT JOIN payroll p
+		ON e.id = p.id
+		GROUP BY Gender;
+	SELECT e.Gender, COUNT(e.Gender) FROM employee_payroll e
+		LEFT JOIN payroll p
+		ON e.id = p.id
+		GROUP BY Gender;
